@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Run with sudo
 cp main.sh docgui
 chmod +x docgui
