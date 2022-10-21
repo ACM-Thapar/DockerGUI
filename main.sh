@@ -47,7 +47,8 @@ maindata=$(zenity --forms --title="DocGUI" --text="Run Container" \
     --add-entry="Container Name" \
     --add-entry="Host Port" \
     --add-entry="Container Port" \
-    --add-entry="Volume" 
+    --add-entry="Host Volume" \
+    --add-entry="Container Volume" 
 )
 [[ "$?" != "0" ]] && exit 1
 
@@ -55,13 +56,21 @@ image=$(echo $maindata | awk 'BEGIN {FS="|" } { print $1 }')
 name=$(echo $maindata | awk 'BEGIN {FS="|" } { print $2 }')
 host_port=$(echo $maindata | awk 'BEGIN {FS="|" } { print $3 }')
 container_port=$(echo $maindata | awk 'BEGIN {FS="|" } { print $4 }')
-volume=$(echo $maindata | awk 'BEGIN {FS="|" } { print $5 }')
+host_volume=$(echo $maindata | awk 'BEGIN {FS="|" } { print $5 }')
+container_volume=$(echo $maindata | awk 'BEGIN {FS="|" } { print $6 }')
 
 if [ -z "$name" ]
 then
       container_name=""
 else
       container_name="--name ${name}"
+fi
+
+if [ -z "$host_volume" ] || [ -z "$container_volume" ]
+then
+      volume=""
+else
+      volume="-v $host_volume:$container_volume"
 fi
 
 options=$(zenity --list --checklist \
@@ -83,7 +92,7 @@ fi
 
 tmpfile=$(mktemp)
 
-docker run ${removal} ${detached} ${container_name} -p ${host_port}:${container_port} ${image} | tee >(zenity --title="Creating Container" \
+docker run ${removal} ${detached} ${container_name} -p ${host_port}:${container_port} ${volume} ${image} | tee >(zenity --title="Creating Container" \
 --progress --pulsate --text="Creating Container..." \
 --auto-kill --auto-close) >${tmpfile}
  
