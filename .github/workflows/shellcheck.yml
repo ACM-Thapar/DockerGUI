@@ -3,7 +3,7 @@ on:
     branches:
       - main
 
-name: "Trigger: Push action"
+name: "Shellcheck"
 
 jobs:
   shellcheck:
@@ -17,3 +17,5 @@ jobs:
           severity: error
         env:
           SHELLCHECK_OPTS: -e SC2086
+# Shellcheck options SC2086 - Double quote to prevent globbing and word splitting. 
+# https://www.shellcheck.net/wiki/SC2086
