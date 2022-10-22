@@ -1,4 +1,4 @@
-# DocGUI
+# DocGUI <p align = "right">[![Shellcheck](https://github.com/ACM-Thapar/DockerGUI/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/ACM-Thapar/DockerGUI/actions/workflows/shellcheck.yml)</p>
 Pull and Run Docker containers from Dialog Box GUI
 
 ## Quick Start
